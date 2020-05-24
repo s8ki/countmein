@@ -27,6 +27,9 @@ function updateTrafficLight(store, entrace_id)
       $("#inside")[0].innerText = latest.inside;
 
       var bg_color = 0 < available ? "green" : "red";
+	  if (bg_color == "green") {
+			$("body").append("<img>images\greenlight.png</img>")
+	  }
       $("body").css("background-color", bg_color);
   });
 }
