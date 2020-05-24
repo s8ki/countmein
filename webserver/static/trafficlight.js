@@ -8,7 +8,7 @@ function getStoreData()
     updateTrafficLight(store, store.entrances[0].id);
     setInterval(function(){ 
       updateTrafficLight(store, store.entrances[0].id)
-      }, 5000);
+      }, 500);
   });
 }
 
