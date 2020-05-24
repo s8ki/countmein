@@ -5,7 +5,7 @@ from datetime import datetime
 import requests
 
 
-ADD_RECORD_URL = 'http://localhost:5000/api/record/1/1' 
+ADD_RECORD_URL = 'http://localhost:80/api/record/1/1' 
 TIMEOUT = 1
 
 INSIDE = 25
