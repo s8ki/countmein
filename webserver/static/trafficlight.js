@@ -23,14 +23,11 @@ function updateTrafficLight(store, entrace_id)
 
       var available = latest.inside < store.capacity ? store.capacity - latest.inside : 0;
       $("#capacity")[0].innerText = store.capacity;
-      $("#available")[0].innerText = available;
+    //   $("#available")[0].innerText = available;
       $("#inside")[0].innerText = latest.inside;
 
-      var bg_color = 0 < available ? "green" : "red";
-	  if (bg_color == "green") {
-			$("body").append("<img>images\greenlight.png</img>")
-	  }
-      $("body").css("background-color", bg_color);
+      var traffic_img = 0 < available ? "traffic_green.png" : "traffic_red.png";
+      $("#trafficlight").attr("src","/static/" + traffic_img);
   });
 }
 
