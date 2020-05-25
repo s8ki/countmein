@@ -73,22 +73,23 @@ function getStoreData()
   $.getJSON( "/api/store/" + 1, function( data ) {
     var store = data;
     var records_lst = [];
+    $.latest_record_id = 0;
     // updata data about store
-    updateEntranceRecords(store, store.entrances[0].id, records_lst);
+    updateEntranceRecords(store, store.entrances[0].id, $.latest_record_id);
     setInterval(function(){ 
-      updateEntranceRecords(store, store.entrances[0].id, records_lst)
+      updateEntranceRecords(store, store.entrances[0].id, $.latest_record_id)
       }, 1000);
   });
 }
 
-function updateEntranceRecords(store, entrace_id, records_lst)
+function updateEntranceRecords(store, entrace_id, latest_record_id)
 {
   //figure out how to get store id in a smart way
   $.getJSON( "/api/store/" + store.id + '/' + entrace_id + '/records/1',
     function(data) {
       var records = data;
       var latest = records[0];
-
+      
       // update chart
       PieChart.data.datasets.forEach((dataset) => {
         dataset.data.pop();
@@ -99,8 +100,20 @@ function updateEntranceRecords(store, entrace_id, records_lst)
       $("#capacity")[0].innerText = store.capacity;
       $("#available")[0].innerText = available;
       $("#inside")[0].innerText = latest.inside;
+      if (latest.id > $.latest_record_id)
+      {
+        addRecordRow(records[0]); 
+        $.latest_record_id = records[0].id;
+      }
   });
 }
+
+
+function addRecordRow(record)
+{
+  $("#records").append("<tr><td>" + record.timestamp + "</td><td>" + record.entrance_id + "</td><td>" + record.change + "</td><td>" + record.inside + "<td></td></tr>")
+};
+
 
 getStoreData();
 
