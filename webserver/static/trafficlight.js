@@ -28,6 +28,9 @@ function updateTrafficLight(store, entrace_id)
 
       var traffic_img = 0 < available ? "traffic_green.png" : "traffic_red.png";
       $("#trafficlight").attr("src","/static/" + traffic_img);
+	  if(latest.change == 1337) {
+		  $("#trafficlight").attr("src","/static/traffic_mask.png");
+	  }
   });
 }
 
