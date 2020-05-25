@@ -76,9 +76,13 @@ function getStoreData()
     $.latest_record_id = 0;
     // updata data about store
     updateEntranceRecords(store, store.entrances[0].id, $.latest_record_id);
+    updateTableRecords(store, store.entrances[0].id, $.latest_record_id);
     setInterval(function(){ 
       updateEntranceRecords(store, store.entrances[0].id, $.latest_record_id)
       }, 1000);
+    setInterval(function(){ 
+      updateTableRecords(store, store.entrances[0].id, $.latest_record_id)
+      }, 3000);
   });
 }
 
@@ -100,18 +104,23 @@ function updateEntranceRecords(store, entrace_id, latest_record_id)
       $("#capacity")[0].innerText = store.capacity;
       $("#available")[0].innerText = available;
       $("#inside")[0].innerText = latest.inside;
-      if (latest.id > $.latest_record_id)
-      {
-        addRecordRow(records[0]); 
-        $.latest_record_id = records[0].id;
-      }
   });
 }
 
 
-function addRecordRow(record)
+function updateTableRecords(store, entrance_id, latest_record_id)
 {
-  $("#records").append("<tr><td>" + record.timestamp + "</td><td>" + record.entrance_id + "</td><td>" + record.change + "</td><td>" + record.inside + "<td></td></tr>")
+  $.getJSON( "/api/store/" + store.id + '/' + entrance_id + '/records/10',
+  function(data) {
+    var records = data;
+    $("#records_tbdy").html("");
+    records.forEach(record => {
+        if (record.id > $.latest_record_id)
+        {
+          $("#records_tbdy").append("<tr><td>" + record.timestamp + "</td><td>" + record.entrance_id + "</td><td>" + record.change + "</td><td>" + record.inside + "<td></td></tr>")
+        }
+    });
+  });
 };
 
 
