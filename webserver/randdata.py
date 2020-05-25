@@ -6,7 +6,7 @@ import requests
 
 
 ADD_RECORD_URL = 'http://localhost:80/api/record/1/1' 
-TIMEOUT = 1
+TIMEOUT = 2
 
 INSIDE = 25
 MIN_INSIDE = 3
@@ -22,7 +22,8 @@ def send_random_data():
     else:
         rand = random.randrange(-3, 3)
     INSIDE += rand
-    d = {'timestamp': datetime.now().isoformat(), 'change':rand, 'inside':INSIDE}
+    d = {'timestamp': datetime.now().isoformat(), 'change':rand, 'inside':INSIDE, 'mask': random.choice([1,0,0,0,0,0,0,0,0,0,0,0,0])}
+    print(d)
     print(requests.post(ADD_RECORD_URL, data=json.dumps(d), headers={'content-type': 'application/json'}))
 
 

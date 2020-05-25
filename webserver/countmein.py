@@ -45,12 +45,13 @@ class Record(db.Model):
                                backref=db.backref('records', lazy='dynamic', order_by='-Record.id'))
     inside = db.Column(db.Integer, nullable=False)
     change = db.Column(db.Integer, nullable=False)
+    mask = db.Column(db.Boolean, default=False, nullable=False)
 
     def __repr__(self):
         return '<Record %r>' % self.id
 
     def todict(self):
-        return {'id': self.id, 'entrance_id': self.entrance_id, 'timestamp': self.timestamp.isoformat(), 'inside': self.inside, 'change': self.change}
+        return {'id': self.id, 'entrance_id': self.entrance_id, 'timestamp': self.timestamp.isoformat(), 'inside': self.inside, 'change': self.change, 'mask': self.mask}
 
 
 
@@ -63,8 +64,9 @@ def create_record(store_id, entrance_id):
         timestamp = dateparser.isoparse(data['timestamp'])
         inside = data['inside']
         change = data['change']
+        mask = data['mask']
         # TODO: check if existing?
-        newrec = Record(timestamp=timestamp, inside=inside, change=change, entrance_id=entrance_id)
+        newrec = Record(timestamp=timestamp, inside=inside, change=change, entrance_id=entrance_id, mask=mask)
         db.session.add(newrec)
         db.session.commit()
     except KeyError:
